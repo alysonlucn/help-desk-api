@@ -1,5 +1,5 @@
 {
-  "name": "inventory-api",
+  "name": "help-desk-api",
   "version": "1.0.0",
   "description": "",
   "main": "dist/server.js",

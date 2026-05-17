@@ -1,6 +1,7 @@
 import express from 'express';
 import userRoutes from './routes/user-routes';
 import authRoutes from './routes/auth-routes';
+import profileRoutes from './routes/profile-routes';
 
 const app = express();
 
@@ -12,5 +13,6 @@ app.get('/', (req, res) => {
 
 app.use('/users', userRoutes);
 app.use('/auth', authRoutes);
+app.use('/profile', profileRoutes);
 
 export default app;
