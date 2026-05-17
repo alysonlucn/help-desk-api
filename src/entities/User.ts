@@ -4,7 +4,11 @@ import {
     Column,
     CreateDateColumn,
     UpdateDateColumn,
+    OneToMany,
+    JoinColumn,
 } from "typeorm";
+
+import { Ticket } from "./Ticket";
 
 export enum UserRole {
     ADMIN = "admin",
@@ -37,4 +41,8 @@ export class User {
 
     @UpdateDateColumn()
     updatedAt!: Date;
+
+    @JoinColumn({ name: "ticket" })
+    @OneToMany(() => Ticket, (ticket) => ticket.user)
+    tickets!: Ticket[];
 }
