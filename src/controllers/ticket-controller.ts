@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 
 import { CreateTicketService } from "../services/create-ticket-service";
+import { ListTicketsService } from "../services/list-ticket-service";
 
 export class TicketController {
   async create(req: Request, res: Response): Promise<Response> {
@@ -25,6 +26,26 @@ export class TicketController {
         updatedAt: ticket.updatedAt,
         userId,
       });
+    } catch (error) {
+      return res.status(400).json({
+        message: error instanceof Error ? error.message : "Unexpected error",
+      });
+    }
+  }
+
+  async list(req: Request, res: Response): Promise<Response> {
+    try {
+      const userId = req.user.id;
+      const role = req.user.role;
+
+      const service = new ListTicketsService();
+
+      const tickets = await service.execute({
+        userId,
+        role,
+      });
+
+      return res.status(200).json(tickets);
     } catch (error) {
       return res.status(400).json({
         message: error instanceof Error ? error.message : "Unexpected error",

@@ -10,4 +10,8 @@ ticketRoutes.post("/", authMiddleware, (req, res) =>
   ticketController.create(req, res)
 );
 
+ticketRoutes.get("/", authMiddleware, (req, res) =>
+  ticketController.list(req, res)
+);
+
 export default ticketRoutes;
