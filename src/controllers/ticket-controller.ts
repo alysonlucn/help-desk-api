@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 
 import { CreateTicketService } from "../services/create-ticket-service";
 import { ListTicketsService } from "../services/list-ticket-service";
+import { UpdateTicketStatusService } from "../services/update-task-status-service";
 
 export class TicketController {
   async create(req: Request, res: Response): Promise<Response> {
@@ -46,6 +47,27 @@ export class TicketController {
       });
 
       return res.status(200).json(tickets);
+    } catch (error) {
+      return res.status(400).json({
+        message: error instanceof Error ? error.message : "Unexpected error",
+      });
+    }
+  }
+
+  async updateStatus(req: Request, res: Response): Promise<Response> {
+    try {
+      const { status } = req.body;
+      const routeId = req.params.id;
+      const ticketId = Array.isArray(routeId) ? routeId[0] : routeId;
+
+      const service = new UpdateTicketStatusService();
+
+      const ticket = await service.execute({
+        ticketId,
+        status,
+      });
+
+      return res.status(200).json(ticket);
     } catch (error) {
       return res.status(400).json({
         message: error instanceof Error ? error.message : "Unexpected error",
